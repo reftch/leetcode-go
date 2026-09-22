@@ -35,5 +35,20 @@
 package plusOne
 
 func plusOne(digits []int) []int {
-	panic("not implemented: plusOne")
+	// Traverse from the least significant digit (rightmost)
+	for i := len(digits) - 1; i >= 0; i-- {
+		// If current digit is not 9, add 1 and return
+		if digits[i] < 9 {
+			digits[i]++
+			return digits
+		}
+		// If digit is 9, set to 0 and carry continues
+		digits[i] = 0
+	}
+
+	// All digits were 9 (e.g., [9,9,9]), need to add a new leading 1
+	// e.g., [9,9,9] -> [0,0,0] -> [1,0,0,0]
+	result := make([]int, len(digits)+1)
+	result[0] = 1
+	return result
 }
