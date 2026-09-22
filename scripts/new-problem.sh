@@ -50,7 +50,7 @@ func Test${FUNC}(t *testing.T) {
 EOF
 
 cat > "$DIR/README.md" <<EOF
-# ${NUM}. ${FUNC}
+${NUM}. ${FUNC}
 
 Link: https://leetcode.com/problems/${SLUG}/
 
