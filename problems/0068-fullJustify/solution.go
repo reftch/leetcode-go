@@ -63,11 +63,12 @@ import (
 
 func addLine(words_acc []string, maxWidth int, w int) string {
 	if len(words_acc) == 1 {
-		accumulate := words_acc[0]
+		var accumulate strings.Builder
+		accumulate.WriteString(words_acc[0])
 		for range maxWidth - len(words_acc[0]) {
-			accumulate += " "
+			accumulate.WriteString(" ")
 		}
-		return accumulate
+		return accumulate.String()
 	}
 	totalSpaces := maxWidth - w
 	gaps := len(words_acc) - 1
