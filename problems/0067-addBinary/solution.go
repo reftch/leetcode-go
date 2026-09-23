@@ -20,6 +20,41 @@
 
 package addBinary
 
+import "fmt"
+
 func addBinary(a string, b string) string {
-	panic("not implemented: addBinary")
+	var getVal func(s string, i int) int
+	getVal = func(s string, i int) int {
+		len_s := len(s)
+		if i < len_s && s[len_s-i-1] == 49 {
+			return 1
+		}
+		return 0
+	}
+
+	a3 := 0
+	sum := ""
+	for i := range max(len(a), len(b)) {
+		a1 := getVal(a, i)
+		a2 := getVal(b, i)
+
+		val := a1 + a2 + a3
+
+		if val > 2 {
+			sum = "1" + sum
+			a3 = 1
+		} else if val > 1 {
+			sum = "0" + sum
+			a3 = 1
+		} else {
+			sum = fmt.Sprintf("%d%s", val, sum)
+			a3 = 0
+		}
+	}
+
+	if a3 == 1 {
+		sum = "1" + sum
+	}
+
+	return sum
 }

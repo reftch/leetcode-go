@@ -2,7 +2,7 @@ package fullJustify
 
 import "testing"
 
-func TestfullJustify(t *testing.T) {
+func TestFullJustify(t *testing.T) {
 	// TODO: replace with real table-driven cases.
 	t.Fatal("solution not implemented")
 }
