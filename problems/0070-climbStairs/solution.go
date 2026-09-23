@@ -1,6 +1,6 @@
-// Package climbStairs contains a stub for LeetCode problem 0070. climbStairs.
+// Package climbStairs contains the solution for LeetCode problem 0070. Climbing Stairs.
 //
-// Link: https://leetcode.com/problems/climbStairs/
+// Link: https://leetcode.com/problems/climbing-stairs/
 //
 // You are climbing a staircase. It takes n steps to reach the top.
 //
@@ -13,6 +13,7 @@
 // Explanation: There are two ways to climb to the top.
 // 1. 1 step + 1 step
 // 2. 2 steps
+//
 // Example 2:
 //
 // Input: n = 3
@@ -25,5 +26,14 @@
 package climbStairs
 
 func climbStairs(n int) int {
-	panic("not implemented: climbStairs")
+	if n <= 2 {
+		return n
+	}
+
+	a, b := 1, 2
+	for i := 3; i <= n; i++ {
+		a, b = b, a+b
+	}
+
+	return b
 }

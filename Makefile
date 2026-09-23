@@ -2,7 +2,7 @@
 PKG ?= ./...
 
 test: ## Run tests (override with PKG=./problems/0001-two-sum/...)
-	go test -v $(PKG)
+	go test -v -count=1 $(PKG)
 
 vet: ## Run go vet
 	go vet ./...
