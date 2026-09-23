@@ -58,47 +58,43 @@
 package fullJustify
 
 import (
-	"fmt"
-	"math"
+	"strings"
 )
 
 func addLine(words_acc []string, maxWidth int, w int) string {
-	accumulate := ""
-	number_of_spaces := len(words_acc)
-	if number_of_spaces > 1 {
-		spaces_w := int(math.Round(float64(maxWidth-w) / float64(number_of_spaces-1)))
-		// fmt.Printf("Spaces for %d %d %d\n", spaces_w, number_of_spaces, maxWidth-w)
-
-		for i := range words_acc {
-			accumulate += words_acc[i]
-			if i < len(words_acc)-1 {
-				for range spaces_w {
-					if w < maxWidth {
-						accumulate += " "
-						w++
-					}
-				}
-			}
-		}
-	} else {
-		accumulate = words_acc[0]
+	if len(words_acc) == 1 {
+		accumulate := words_acc[0]
 		for range maxWidth - len(words_acc[0]) {
 			accumulate += " "
 		}
+		return accumulate
+	}
+	totalSpaces := maxWidth - w
+	gaps := len(words_acc) - 1
+	base := totalSpaces / gaps
+	extra := totalSpaces % gaps
+
+	var b strings.Builder
+	for i, word := range words_acc {
+		b.WriteString(word)
+		if i < gaps {
+			n := base
+			if i < extra {
+				n++
+			}
+			for range n {
+				b.WriteString(" ")
+			}
+		}
 	}
 
-	return accumulate
+	return b.String()
 }
 
 func addLastLine(words_acc []string, maxWidth int) string {
-	accumulate := ""
-	for _, word := range words_acc {
-		accumulate += word + " "
-	}
-	if len(accumulate) < maxWidth {
-		for range maxWidth - len(accumulate) {
-			accumulate += " "
-		}
+	accumulate := strings.Join(words_acc, " ")
+	for range maxWidth - len(accumulate) {
+		accumulate += " "
 	}
 	return accumulate
 }
@@ -116,7 +112,6 @@ func fullJustify(words []string, maxWidth int) []string {
 		} else {
 			accumulate := addLine(words_acc, maxWidth, w)
 			new = append(new, accumulate)
-			fmt.Println(accumulate)
 
 			words_acc = []string{}
 			words_acc = append(words_acc, word)
@@ -126,11 +121,6 @@ func fullJustify(words []string, maxWidth int) []string {
 
 	if w != 0 {
 		new = append(new, addLastLine(words_acc, maxWidth))
-	}
-
-	fmt.Printf("Result %d\n", len(new))
-	for _, line := range new {
-		fmt.Printf("[%s]\n", line)
 	}
 
 	return new

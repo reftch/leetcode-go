@@ -27,6 +27,12 @@ func TestFullJustify(t *testing.T) {
 			width: 20,
 			want:  []string{"Science  is  what we", "understand      well", "enough to explain to", "a  computer.  Art is", "everything  else  we", "do                  "},
 		},
+		{
+			name:  "example 5",
+			words: []string{"ask", "not", "what", "your", "country", "can", "do", "for", "you", "ask", "what", "you", "can", "do", "for", "your", "country"},
+			width: 16,
+			want:  []string{"ask   not   what", "your country can", "do  for  you ask", "what  you can do", "for your country"},
+		},
 	}
 
 	for _, tt := range tests {
