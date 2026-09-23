@@ -47,16 +47,91 @@
 // Input: words = ["Science","is","what","we","understand","well","enough","to","explain","to","a","computer.","Art","is","everything","else","we","do"], maxWidth = 20
 // Output:
 // [
-//   "Science  is  what we",
-//   "understand      well",
-//   "enough to explain to",
-//   "a  computer.  Art is",
-//   "everything  else  we",
-//   "do                  "
+// "Science  is  what we",
+// "understand      well",
+// "enough to explain to",
+// "a  computer.  Art is",
+// "everything  else  we",
+// "do                  "
 // ]
 
 package fullJustify
 
+import (
+	"fmt"
+	"math"
+)
+
+func addLine(words_acc []string, maxWidth int, w int) string {
+	accumulate := ""
+	number_of_spaces := len(words_acc)
+	if number_of_spaces > 1 {
+		spaces_w := int(math.Round(float64(maxWidth-w) / float64(number_of_spaces-1)))
+		// fmt.Printf("Spaces for %d %d %d\n", spaces_w, number_of_spaces, maxWidth-w)
+
+		for i := range words_acc {
+			accumulate += words_acc[i]
+			if i < len(words_acc)-1 {
+				for range spaces_w {
+					if w < maxWidth {
+						accumulate += " "
+						w++
+					}
+				}
+			}
+		}
+	} else {
+		accumulate = words_acc[0]
+		for range maxWidth - len(words_acc[0]) {
+			accumulate += " "
+		}
+	}
+
+	return accumulate
+}
+
+func addLastLine(words_acc []string, maxWidth int) string {
+	accumulate := ""
+	for _, word := range words_acc {
+		accumulate += word + " "
+	}
+	if len(accumulate) < maxWidth {
+		for range maxWidth - len(accumulate) {
+			accumulate += " "
+		}
+	}
+	return accumulate
+}
+
 func fullJustify(words []string, maxWidth int) []string {
-	panic("not implemented: fullJustify")
+	new := []string{}
+
+	words_acc := []string{}
+	w := 0
+	for _, word := range words {
+		len_w := len(word)
+		if w+len_w+len(words_acc) <= maxWidth {
+			words_acc = append(words_acc, word)
+			w += len_w
+		} else {
+			accumulate := addLine(words_acc, maxWidth, w)
+			new = append(new, accumulate)
+			fmt.Println(accumulate)
+
+			words_acc = []string{}
+			words_acc = append(words_acc, word)
+			w = len_w
+		}
+	}
+
+	if w != 0 {
+		new = append(new, addLastLine(words_acc, maxWidth))
+	}
+
+	fmt.Printf("Result %d\n", len(new))
+	for _, line := range new {
+		fmt.Printf("[%s]\n", line)
+	}
+
+	return new
 }
