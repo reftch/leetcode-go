@@ -33,6 +33,11 @@ func TestSimplifyPath(t *testing.T) {
 			path: "/.../a/../b/c/../d/./",
 			want: "/.../b/d",
 		},
+		{
+			name: "example 6",
+			path: "/a/./b/../../c/",
+			want: "/c",
+		},
 	}
 
 	for _, tt := range tests {

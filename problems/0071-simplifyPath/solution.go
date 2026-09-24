@@ -65,6 +65,25 @@
 
 package simplifyPath
 
+import (
+	"strings"
+)
+
 func simplifyPath(path string) string {
-	panic("not implemented: simplifyPath")
+	stack := []string{}
+	for part := range strings.SplitSeq(path, "/") {
+		if part != "" && part != "." && part != ".." {
+			stack = append(stack, "/"+part)
+		} else if part == ".." {
+			if len(stack) > 0 {
+				stack = stack[:len(stack)-1]
+			}
+		}
+	}
+
+	if len(stack) == 0 {
+		stack = append(stack, "/")
+	}
+
+	return strings.Join(stack, "")
 }
