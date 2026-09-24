@@ -70,20 +70,19 @@ import (
 )
 
 func simplifyPath(path string) string {
-	stack := []string{}
-	for part := range strings.SplitSeq(path, "/") {
-		if part != "" && part != "." && part != ".." {
-			stack = append(stack, "/"+part)
-		} else if part == ".." {
-			if len(stack) > 0 {
-				stack = stack[:len(stack)-1]
+	parts := strings.Split(path, "/")
+	stack := make([]string, 0, len(parts))
+
+	for _, part := range parts {
+		switch part {
+		case "", ".", "..":
+			if part == ".." && len(stack) > 0 {
+				stack = stack[:len(stack)-1] // pop
 			}
+		default:
+			stack = append(stack, part) // push
 		}
 	}
 
-	if len(stack) == 0 {
-		stack = append(stack, "/")
-	}
-
-	return strings.Join(stack, "")
+	return "/" + strings.Join(stack, "/")
 }
